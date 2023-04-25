@@ -45,7 +45,7 @@ stages:
   # --- Run tests on dev environment ---
   - stage: test_dev
     dependsOn: test_isolated
-    condition: and(succeeded(), or(eq($(isDev), 'true'),eq($(isMain), 'true')))
+    condition: and(succeeded(), or(eq(variables.isDev, 'true'), eq(variables.isMain, 'true')))
     jobs:
       - job: B1
       - job: B2
