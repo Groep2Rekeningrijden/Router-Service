@@ -12,12 +12,13 @@ variables:
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   isDev: $[eq(variables['Build.SourceBranch'], 'refs/heads/dev')]
   # Configure SonarCloud
-  cliProjectKey: temp
-  cliProjectName: temp
+  cliProjectKey: FontysVerkeer_Rekeningrijden
+  cliProjectName: Rekeningrijden
 
 resources:
   repositories:
     - repository: templates
+      endpoint: Groep2Rekeningrijden
       type: github
       name: Groep2Rekeningrijden/Templates
 
