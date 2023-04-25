@@ -18,6 +18,7 @@ variables:
 resources:
   repositories:
     - repository: templates
+      endpoint: Groep2Rekeningrijden
       type: github
       name: Groep2Rekeningrijden/Templates
 
