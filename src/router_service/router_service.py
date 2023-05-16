@@ -1,4 +1,5 @@
 import random
+import uuid
 
 import networkx
 import osmnx
@@ -8,7 +9,7 @@ from networkx import MultiDiGraph
 from osmnx import settings, projection
 
 import helpers.custom_nearest_edge as cne
-from src.router_service.models.route_models import Node
+from src.router_service.models.route_models import Node, Route, Segment, Way
 
 
 def fetch_vehicle_ids():
@@ -98,15 +99,37 @@ def map_to_map(map, coordinates):
     route_edges = route_edges.loc[~route_edges["order"].isnull()].sort_values(by=["order"])
     route_edges = route_edges.drop(columns=["order"]).set_index(["u", "v", "key"])
 
-    out = []
-    for node in route:
+    out = Route(id=uuid.uuid4())
+    for index, node in enumerate(route[:-2]):
         # For every node: grab that node as "start",
         #   grab the next node as "end",
         #   grab connecting edge as "way"
         # TODO: grab nodes, go through and build the models
-        tuple()
-        start = Node()
-        out.append(route_edges.loc[route_edges['u'] == node | route_edges['v'] == node])
+        next_node = route[index + 1]
+        start_data = route_nodes.loc[node, ['lon', 'lat']].to_dict()
+        end_data = route_nodes.loc[next_node, ['lon', 'lat']].to_dict()
+        way_data = route_edges.iloc[index].to_dict()
+        out.add_segment(
+            Segment(
+                start=Node(
+                    osmid=node,
+                    lon=start_data['lon'],
+                    lat=start_data['lat']
+                ),
+                way=Way(
+                    osmid=way_data['osmid'],
+                    name=way_data['name'],
+                    highway=way_data['highway'],
+                    length=way_data['length'],
+                ),
+
+                end=Node(
+                    osmid=next_node,
+                    lon=end_data['lon'],
+                    lat=end_data['lat']
+                )
+            )
+        )
 
     print("yeet")
 

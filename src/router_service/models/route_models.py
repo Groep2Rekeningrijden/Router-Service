@@ -34,7 +34,10 @@ class Route:
     def __init__(self, id: uuid, price_total: float = 0, segments: list[Segment] = None):
         self.id = id
         self.price_total = price_total
-        self.segments = segments
+        if segments:
+            self.segments = segments
+        else:
+            self.segments = []
 
     def add_segment(self, segment: Segment):
         self.segments.append(segment)
