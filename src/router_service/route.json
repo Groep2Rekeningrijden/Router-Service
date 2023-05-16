@@ -1,0 +1,1179 @@
+{
+  "route_id": "d61bfbd3-5f86-481e-950f-1403250b9d51",
+  "price_total": 0,
+  "segments": [
+    {
+      "start": {
+        "osmid": 59094636,
+        "lat": 51.4098679,
+        "lon": 5.4514962
+      },
+      "way": {
+        "osmid": 130280783,
+        "name": "High Tech Campus",
+        "highway": "tertiary",
+        "length": 536.14,
+        "price": null
+      },
+      "end": {
+        "osmid": 59094650,
+        "lat": 51.4133066,
+        "lon": 5.4530506
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 59094650,
+        "lat": 51.4133066,
+        "lon": 5.4530506
+      },
+      "way": {
+        "osmid": [
+          982816182,
+          130280783
+        ],
+        "name": "High Tech Campus",
+        "highway": "tertiary",
+        "length": 241.69,
+        "price": null
+      },
+      "end": {
+        "osmid": 59094651,
+        "lat": 51.4138646,
+        "lon": 5.4564188
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 59094651,
+        "lat": 51.4138646,
+        "lon": 5.4564188
+      },
+      "way": {
+        "osmid": 982816182,
+        "name": "High Tech Campus",
+        "highway": "tertiary",
+        "length": 186.378,
+        "price": null
+      },
+      "end": {
+        "osmid": 59094656,
+        "lat": 51.4143101,
+        "lon": 5.4590096
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 59094656,
+        "lat": 51.4143101,
+        "lon": 5.4590096
+      },
+      "way": {
+        "osmid": 982816182,
+        "name": "High Tech Campus",
+        "highway": "tertiary",
+        "length": 317.542,
+        "price": null
+      },
+      "end": {
+        "osmid": 5230399255,
+        "lat": 51.4148743,
+        "lon": 5.4634457
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 5230399255,
+        "lat": 51.4148743,
+        "lon": 5.4634457
+      },
+      "way": {
+        "osmid": [
+          886793972,
+          540698621
+        ],
+        "name": "High Tech Campus",
+        "highway": "tertiary",
+        "length": 56.683,
+        "price": null
+      },
+      "end": {
+        "osmid": 42566751,
+        "lat": 51.4147391,
+        "lon": 5.4642266
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42566751,
+        "lat": 51.4147391,
+        "lon": 5.4642266
+      },
+      "way": {
+        "osmid": 167158714,
+        "name": "High Tech Campus",
+        "highway": "tertiary",
+        "length": 11.947,
+        "price": null
+      },
+      "end": {
+        "osmid": 565567543,
+        "lat": 51.4147493,
+        "lon": 5.4643981
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 565567543,
+        "lat": 51.4147493,
+        "lon": 5.4643981
+      },
+      "way": {
+        "osmid": [
+          48877497,
+          44523170,
+          44523171,
+          540697186
+        ],
+        "name": "Professor Holstlaan",
+        "highway": "secondary",
+        "length": 277.828,
+        "price": null
+      },
+      "end": {
+        "osmid": 5230390928,
+        "lat": 51.4171541,
+        "lon": 5.4654374
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 5230390928,
+        "lat": 51.4171541,
+        "lon": 5.4654374
+      },
+      "way": {
+        "osmid": 540697185,
+        "name": "Professor Holstlaan",
+        "highway": "secondary",
+        "length": 9.012,
+        "price": null
+      },
+      "end": {
+        "osmid": 42573384,
+        "lat": 51.4172306,
+        "lon": 5.4654803
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42573384,
+        "lat": 51.4172306,
+        "lon": 5.4654803
+      },
+      "way": {
+        "osmid": [
+          7165608,
+          37412006
+        ],
+        "name": "Bayeuxlaan",
+        "highway": "secondary",
+        "length": 128.097,
+        "price": null
+      },
+      "end": {
+        "osmid": 42576622,
+        "lat": 51.4183602,
+        "lon": 5.4657664
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42576622,
+        "lat": 51.4183602,
+        "lon": 5.4657664
+      },
+      "way": {
+        "osmid": 7165594,
+        "name": "Bayeuxlaan",
+        "highway": "secondary",
+        "length": 337.04799999999994,
+        "price": null
+      },
+      "end": {
+        "osmid": 42584824,
+        "lat": 51.4212693,
+        "lon": 5.4671317
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42584824,
+        "lat": 51.4212693,
+        "lon": 5.4671317
+      },
+      "way": {
+        "osmid": [
+          540694120,
+          7165636,
+          540694117
+        ],
+        "name": "Bayeuxlaan",
+        "highway": "secondary",
+        "length": 190.543,
+        "price": null
+      },
+      "end": {
+        "osmid": 42588313,
+        "lat": 51.422919,
+        "lon": 5.4669791
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42588313,
+        "lat": 51.422919,
+        "lon": 5.4669791
+      },
+      "way": {
+        "osmid": [
+          7165596,
+          540536534
+        ],
+        "name": "Bayeuxlaan",
+        "highway": "secondary",
+        "length": 191.792,
+        "price": null
+      },
+      "end": {
+        "osmid": 1281483358,
+        "lat": 51.424601,
+        "lon": 5.4666263
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 1281483358,
+        "lat": 51.424601,
+        "lon": 5.4666263
+      },
+      "way": {
+        "osmid": [
+          232521224,
+          609299353
+        ],
+        "name": "Bayeuxlaan",
+        "highway": "secondary",
+        "length": 220.81100000000004,
+        "price": null
+      },
+      "end": {
+        "osmid": 42597952,
+        "lat": 51.4265571,
+        "lon": 5.4670579
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42597952,
+        "lat": 51.4265571,
+        "lon": 5.4670579
+      },
+      "way": {
+        "osmid": 7165705,
+        "name": "Bayeuxlaan",
+        "highway": "secondary",
+        "length": 13.166,
+        "price": null
+      },
+      "end": {
+        "osmid": 42598337,
+        "lat": 51.4266755,
+        "lon": 5.4670588
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42598337,
+        "lat": 51.4266755,
+        "lon": 5.4670588
+      },
+      "way": {
+        "osmid": [
+          349335722,
+          349335723,
+          7165661
+        ],
+        "name": "Boutenslaan",
+        "highway": "primary",
+        "length": 158.25199999999998,
+        "price": null
+      },
+      "end": {
+        "osmid": 42599895,
+        "lat": 51.4273198,
+        "lon": 5.4650238
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42599895,
+        "lat": 51.4273198,
+        "lon": 5.4650238
+      },
+      "way": {
+        "osmid": 349335723,
+        "name": "Boutenslaan",
+        "highway": "primary",
+        "length": 64.093,
+        "price": null
+      },
+      "end": {
+        "osmid": 42600584,
+        "lat": 51.427581,
+        "lon": 5.4641997
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42600584,
+        "lat": 51.427581,
+        "lon": 5.4641997
+      },
+      "way": {
+        "osmid": 540536528,
+        "name": "Keizer Karel V Singel",
+        "highway": "primary",
+        "length": 11.398,
+        "price": null
+      },
+      "end": {
+        "osmid": 5229230506,
+        "lat": 51.4276269,
+        "lon": 5.4640527
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 5229230506,
+        "lat": 51.4276269,
+        "lon": 5.4640527
+      },
+      "way": {
+        "osmid": 7165667,
+        "name": "Keizer Karel V Singel",
+        "highway": "primary",
+        "length": 32.738,
+        "price": null
+      },
+      "end": {
+        "osmid": 930142907,
+        "lat": 51.4277531,
+        "lon": 5.4636261
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 930142907,
+        "lat": 51.4277531,
+        "lon": 5.4636261
+      },
+      "way": {
+        "osmid": 7165667,
+        "name": "Keizer Karel V Singel",
+        "highway": "primary",
+        "length": 102.253,
+        "price": null
+      },
+      "end": {
+        "osmid": 42601802,
+        "lat": 51.4281457,
+        "lon": 5.4622924
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42601802,
+        "lat": 51.4281457,
+        "lon": 5.4622924
+      },
+      "way": {
+        "osmid": 7165711,
+        "name": "Keizer Karel V Singel",
+        "highway": "primary",
+        "length": 98.70800000000001,
+        "price": null
+      },
+      "end": {
+        "osmid": 10755544248,
+        "lat": 51.428687,
+        "lon": 5.4612001
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 10755544248,
+        "lat": 51.428687,
+        "lon": 5.4612001
+      },
+      "way": {
+        "osmid": 1156556106,
+        "name": "",
+        "highway": "primary",
+        "length": 5.295,
+        "price": null
+      },
+      "end": {
+        "osmid": 42603666,
+        "lat": 51.428734,
+        "lon": 5.4611878
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42603666,
+        "lat": 51.428734,
+        "lon": 5.4611878
+      },
+      "way": {
+        "osmid": 237277814,
+        "name": "",
+        "highway": "primary",
+        "length": 67.182,
+        "price": null
+      },
+      "end": {
+        "osmid": 42604201,
+        "lat": 51.4290314,
+        "lon": 5.460445
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42604201,
+        "lat": 51.4290314,
+        "lon": 5.460445
+      },
+      "way": {
+        "osmid": 1156556107,
+        "name": "",
+        "highway": "primary",
+        "length": 1.39,
+        "price": null
+      },
+      "end": {
+        "osmid": 10755544249,
+        "lat": 51.429028,
+        "lon": 5.4604257
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 10755544249,
+        "lat": 51.429028,
+        "lon": 5.4604257
+      },
+      "way": {
+        "osmid": 7165682,
+        "name": "Limburglaan",
+        "highway": "primary",
+        "length": 66.526,
+        "price": null
+      },
+      "end": {
+        "osmid": 42604662,
+        "lat": 51.4291787,
+        "lon": 5.4595076
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42604662,
+        "lat": 51.4291787,
+        "lon": 5.4595076
+      },
+      "way": {
+        "osmid": 7165682,
+        "name": "Limburglaan",
+        "highway": "primary",
+        "length": 327.265,
+        "price": null
+      },
+      "end": {
+        "osmid": 42608731,
+        "lat": 51.4309498,
+        "lon": 5.4557406
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42608731,
+        "lat": 51.4309498,
+        "lon": 5.4557406
+      },
+      "way": {
+        "osmid": 540534025,
+        "name": "Limburglaan",
+        "highway": "primary",
+        "length": 107.00800000000001,
+        "price": null
+      },
+      "end": {
+        "osmid": 42611061,
+        "lat": 51.4316875,
+        "lon": 5.4547517
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42611061,
+        "lat": 51.4316875,
+        "lon": 5.4547517
+      },
+      "way": {
+        "osmid": 7167275,
+        "name": "Limburglaan",
+        "highway": "primary",
+        "length": 54.884,
+        "price": null
+      },
+      "end": {
+        "osmid": 848941944,
+        "lat": 51.4320985,
+        "lon": 5.4543133
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 848941944,
+        "lat": 51.4320985,
+        "lon": 5.4543133
+      },
+      "way": {
+        "osmid": [
+          7167275,
+          574848861
+        ],
+        "name": "Limburglaan",
+        "highway": "primary",
+        "length": 399.711,
+        "price": null
+      },
+      "end": {
+        "osmid": 206338201,
+        "lat": 51.4354729,
+        "lon": 5.4523678
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 206338201,
+        "lat": 51.4354729,
+        "lon": 5.4523678
+      },
+      "way": {
+        "osmid": 7167272,
+        "name": "Limburglaan",
+        "highway": "primary",
+        "length": 62.774,
+        "price": null
+      },
+      "end": {
+        "osmid": 1368522776,
+        "lat": 51.4360126,
+        "lon": 5.4521023
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 1368522776,
+        "lat": 51.4360126,
+        "lon": 5.4521023
+      },
+      "way": {
+        "osmid": 122478645,
+        "name": "Limburglaan",
+        "highway": "primary",
+        "length": 13.593,
+        "price": null
+      },
+      "end": {
+        "osmid": 42620738,
+        "lat": 51.4361291,
+        "lon": 5.4520429
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42620738,
+        "lat": 51.4361291,
+        "lon": 5.4520429
+      },
+      "way": {
+        "osmid": 7168076,
+        "name": "Botenlaan",
+        "highway": "primary",
+        "length": 30.709,
+        "price": null
+      },
+      "end": {
+        "osmid": 334632045,
+        "lat": 51.4363877,
+        "lon": 5.4518874
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 334632045,
+        "lat": 51.4363877,
+        "lon": 5.4518874
+      },
+      "way": {
+        "osmid": [
+          7168076,
+          572753839
+        ],
+        "name": "Botenlaan",
+        "highway": "primary",
+        "length": 320.999,
+        "price": null
+      },
+      "end": {
+        "osmid": 334632049,
+        "lat": 51.439133,
+        "lon": 5.4504635
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 334632049,
+        "lat": 51.439133,
+        "lon": 5.4504635
+      },
+      "way": {
+        "osmid": 540534042,
+        "name": "Botenlaan",
+        "highway": "primary",
+        "length": 61.521,
+        "price": null
+      },
+      "end": {
+        "osmid": 42629349,
+        "lat": 51.4396795,
+        "lon": 5.4503252
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42629349,
+        "lat": 51.4396795,
+        "lon": 5.4503252
+      },
+      "way": {
+        "osmid": 572753847,
+        "name": "",
+        "highway": "primary",
+        "length": 14.092,
+        "price": null
+      },
+      "end": {
+        "osmid": 5502292458,
+        "lat": 51.4398046,
+        "lon": 5.4502927
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 5502292458,
+        "lat": 51.4398046,
+        "lon": 5.4502927
+      },
+      "way": {
+        "osmid": 7168105,
+        "name": "Beukenlaan",
+        "highway": "primary",
+        "length": 22.887999999999998,
+        "price": null
+      },
+      "end": {
+        "osmid": 356927204,
+        "lat": 51.4400075,
+        "lon": 5.4502372
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 356927204,
+        "lat": 51.4400075,
+        "lon": 5.4502372
+      },
+      "way": {
+        "osmid": [
+          572753841,
+          7167458,
+          31874726
+        ],
+        "name": "Beukenlaan",
+        "highway": "residential",
+        "length": 241.48100000000005,
+        "price": null
+      },
+      "end": {
+        "osmid": 42635445,
+        "lat": 51.4419893,
+        "lon": 5.4497453
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42635445,
+        "lat": 51.4419893,
+        "lon": 5.4497453
+      },
+      "way": {
+        "osmid": [
+          210073136,
+          145030058,
+          210073135
+        ],
+        "name": "Beukenlaan",
+        "highway": "residential",
+        "length": 236.679,
+        "price": null
+      },
+      "end": {
+        "osmid": 1271555674,
+        "lat": 51.4440506,
+        "lon": 5.4490068
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 1271555674,
+        "lat": 51.4440506,
+        "lon": 5.4490068
+      },
+      "way": {
+        "osmid": [
+          203977848,
+          31820867
+        ],
+        "name": "Beukenlaan",
+        "highway": "primary_link",
+        "length": 77.191,
+        "price": null
+      },
+      "end": {
+        "osmid": 42642678,
+        "lat": 51.4447367,
+        "lon": 5.4488374
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42642678,
+        "lat": 51.4447367,
+        "lon": 5.4488374
+      },
+      "way": {
+        "osmid": 203977850,
+        "name": "Beukenlaan",
+        "highway": "primary_link",
+        "length": 11.787,
+        "price": null
+      },
+      "end": {
+        "osmid": 683396991,
+        "lat": 51.4448414,
+        "lon": 5.4488108
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 683396991,
+        "lat": 51.4448414,
+        "lon": 5.4488108
+      },
+      "way": {
+        "osmid": 31512501,
+        "name": "",
+        "highway": "secondary",
+        "length": 15.285,
+        "price": null
+      },
+      "end": {
+        "osmid": 616506691,
+        "lat": 51.444967,
+        "lon": 5.4488758
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 616506691,
+        "lat": 51.444967,
+        "lon": 5.4488758
+      },
+      "way": {
+        "osmid": 31512501,
+        "name": "",
+        "highway": "secondary",
+        "length": 19.667,
+        "price": null
+      },
+      "end": {
+        "osmid": 42644381,
+        "lat": 51.4451384,
+        "lon": 5.4488261
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42644381,
+        "lat": 51.4451384,
+        "lon": 5.4488261
+      },
+      "way": {
+        "osmid": 572719898,
+        "name": "Beukenlaan",
+        "highway": "primary_link",
+        "length": 22.154,
+        "price": null
+      },
+      "end": {
+        "osmid": 1991148468,
+        "lat": 51.4453317,
+        "lon": 5.4487487
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 1991148468,
+        "lat": 51.4453317,
+        "lon": 5.4487487
+      },
+      "way": {
+        "osmid": [
+          188488256,
+          224148596
+        ],
+        "name": "Beukenlaan",
+        "highway": "residential",
+        "length": 130.167,
+        "price": null
+      },
+      "end": {
+        "osmid": 293749087,
+        "lat": 51.4464851,
+        "lon": 5.4489221
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 293749087,
+        "lat": 51.4464851,
+        "lon": 5.4489221
+      },
+      "way": {
+        "osmid": 188488250,
+        "name": "Beukenlaan",
+        "highway": "residential",
+        "length": 262.268,
+        "price": null
+      },
+      "end": {
+        "osmid": 293749092,
+        "lat": 51.4478567,
+        "lon": 5.4518774
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 293749092,
+        "lat": 51.4478567,
+        "lon": 5.4518774
+      },
+      "way": {
+        "osmid": 927800788,
+        "name": "Schootsestraat",
+        "highway": "tertiary",
+        "length": 25.147,
+        "price": null
+      },
+      "end": {
+        "osmid": 2953746626,
+        "lat": 51.44805,
+        "lon": 5.4517224
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 2953746626,
+        "lat": 51.44805,
+        "lon": 5.4517224
+      },
+      "way": {
+        "osmid": [
+          456853067,
+          927800787
+        ],
+        "name": "Zwaanstraat",
+        "highway": "tertiary",
+        "length": 54.637,
+        "price": null
+      },
+      "end": {
+        "osmid": 42654303,
+        "lat": 51.4484896,
+        "lon": 5.4513702
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 42654303,
+        "lat": 51.4484896,
+        "lon": 5.4513702
+      },
+      "way": {
+        "osmid": 7167944,
+        "name": "Zwaanstraat",
+        "highway": "tertiary",
+        "length": 145.667,
+        "price": null
+      },
+      "end": {
+        "osmid": 8607356233,
+        "lat": 51.4495817,
+        "lon": 5.450215
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 8607356233,
+        "lat": 51.4495817,
+        "lon": 5.450215
+      },
+      "way": {
+        "osmid": 927794811,
+        "name": "Zwaanstraat",
+        "highway": "tertiary",
+        "length": 40.984,
+        "price": null
+      },
+      "end": {
+        "osmid": 1579638714,
+        "lat": 51.449866,
+        "lon": 5.4498401
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 1579638714,
+        "lat": 51.449866,
+        "lon": 5.4498401
+      },
+      "way": {
+        "osmid": 249176328,
+        "name": "",
+        "highway": "tertiary",
+        "length": 15.262,
+        "price": null
+      },
+      "end": {
+        "osmid": 1579638718,
+        "lat": 51.4499964,
+        "lon": 5.4498361
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 1579638718,
+        "lat": 51.4499964,
+        "lon": 5.4498361
+      },
+      "way": {
+        "osmid": 249176328,
+        "name": "",
+        "highway": "tertiary",
+        "length": 19.791,
+        "price": null
+      },
+      "end": {
+        "osmid": 293749045,
+        "lat": 51.4500364,
+        "lon": 5.4495827
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 293749045,
+        "lat": 51.4500364,
+        "lon": 5.4495827
+      },
+      "way": {
+        "osmid": [
+          195986889,
+          377249508
+        ],
+        "name": [
+          "Beeldbuisring",
+          "Zwaanstraat"
+        ],
+        "highway": [
+          "residential",
+          "unclassified"
+        ],
+        "length": 298.97499999999997,
+        "price": null
+      },
+      "end": {
+        "osmid": 6358357377,
+        "lat": 51.4519883,
+        "lon": 5.4474018
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 6358357377,
+        "lat": 51.4519883,
+        "lon": 5.4474018
+      },
+      "way": {
+        "osmid": 195986889,
+        "name": "Beeldbuisring",
+        "highway": "residential",
+        "length": 23.892,
+        "price": null
+      },
+      "end": {
+        "osmid": 6358357357,
+        "lat": 51.4518714,
+        "lon": 5.4471125
+      },
+      "time": null,
+      "price": 0
+    },
+    {
+      "start": {
+        "osmid": 6358357357,
+        "lat": 51.4518714,
+        "lon": 5.4471125
+      },
+      "way": {
+        "osmid": 195986889,
+        "name": "Beeldbuisring",
+        "highway": "residential",
+        "length": 68.612,
+        "price": null
+      },
+      "end": {
+        "osmid": 2063580863,
+        "lat": 51.4515362,
+        "lon": 5.4462812
+      },
+      "time": null,
+      "price": 0
+    }
+  ]
+}

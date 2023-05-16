@@ -1,1 +1,3 @@
-"""Initialize the module."""
+"""
+Declares the module.
+"""
