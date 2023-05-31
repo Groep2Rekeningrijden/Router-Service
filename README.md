@@ -1,7 +1,7 @@
 ### TODO:
-1. Expose CarService via nginx gateway, use kompose to convert to helm chart
-   a.  
+1. DONE Expose CarService via nginx gateway, use kompose to convert to helm chart
 2. Generate helm charts for all routing services, pack them into my local kind cluster
+   - Additional apps: mongodb-coordinateservice, rabbitmq (guest, guest)
 3. Dockerize the simulation
 4. Make use of CarService endpoint for random vehicle(s)
 5. Run sim against RouterAPI
