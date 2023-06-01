@@ -743,6 +743,17 @@ files = [
 ]
 
 [[package]]
+name = "masstransitpython-byq96"
+version = "0.0.5"
+description = "Python RabbitMQ client for MassTransit Communication"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "masstransitpython_byQ96-0.0.5-py3-none-any.whl", hash = "sha256:abe0614579b3ff008ee38eca82200fa3e736c4b8257c5a1954cdfca0595a9a95"},
+]
+
+[[package]]
 name = "matplotlib"
 version = "3.7.1"
 description = "Python plotting package"
@@ -1766,4 +1777,4 @@ dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.12"
-content-hash = "4fe7a11fb6c27438f2e3869f38c1b864f134abdc7bd781e8e1e6145fdd82c8b2"
+content-hash = "625ed3a811cfd5f2b1047486d94bcf55141b999b67d9f37a12417d331b1ca269"

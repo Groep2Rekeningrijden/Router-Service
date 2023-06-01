@@ -65,7 +65,7 @@ class Route(BaseModel):
     :param segments: Segments of the route. Defaults to empty if not given
     """
 
-    route_id: uuid.UUID
+    route_id: uuid.UUID = uuid.uuid4()
     price_total: float = 0
     segments: list[Segment] = None
 
@@ -85,3 +85,14 @@ class Route(BaseModel):
         :return: None.
         """
         self.segments.append(segment)
+
+
+class RouteDTO(BaseModel):
+    """
+    Model for transmitting route.
+
+    :param VehicleId: ID of the vehicle
+    :param Route: The Route object
+    """
+    VehicleId: uuid.UUID
+    Route: Route
