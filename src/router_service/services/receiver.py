@@ -1,3 +1,6 @@
+import logging
+from time import sleep
+
 from masstransitpython import RabbitMQReceiver
 from json import loads
 
@@ -22,6 +25,18 @@ class Receiver:
 
     def start(self):
         # define receiver
-        receiver = RabbitMQReceiver(self.conf, self.exchange)
+        receiver = None
+        attempts = 0
+        while attempts < 10:
+            try:
+                receiver = RabbitMQReceiver(self.conf, self.exchange)
+                break
+            except Exception as e:
+                logging.warning(f"Connection to rabbitmq failed {attempts} times...")
+                attempts += 1
+                sleep(5)
+                if attempts >= 10:
+                    raise e
+
         receiver.add_on_message_callback(self.handler)
         receiver.start_consuming()
