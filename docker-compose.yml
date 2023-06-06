@@ -1,0 +1,14 @@
+services:
+  router-brussels:
+    image: fontyssa/router-brussels
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - docker_rekeningrijden
+    environment:
+      - REGION="Brussels, Belgium"
+
+networks:
+  docker_rekeningrijden:
+    external: true

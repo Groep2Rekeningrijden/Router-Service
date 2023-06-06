@@ -19,6 +19,7 @@ class Node(BaseModel):
     osmid: int
     lat: float
     lon: float
+    time: datetime = None
 
 
 class Way(BaseModel):
@@ -35,7 +36,7 @@ class Way(BaseModel):
     name: str | list[str]
     highway: str | list[str]
     length: float
-    price: float = None
+    time: datetime = None
 
 
 class Segment(BaseModel):
@@ -54,14 +55,6 @@ class Segment(BaseModel):
     end: Node
     time: datetime = None
     price: float = 0
-
-    def calculate_price(self, price_model):
-        """
-        Calculate the price of the segment.
-
-        :return: None.
-        """
-        self.price = 0
 
 
 class Route(BaseModel):
@@ -93,16 +86,6 @@ class Route(BaseModel):
         :return: None.
         """
         self.segments.append(segment)
-
-    def calculate_price(self):
-        """
-        Calculate the price of the route.
-
-        :return: None.
-        """
-        self.price_total = 0
-        for segment in self.segments:
-            self.price_total += segment.price
 
 
 class RouteDTO(BaseModel):

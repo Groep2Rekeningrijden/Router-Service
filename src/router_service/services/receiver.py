@@ -16,7 +16,7 @@ class Receiver:
 
     def handler(self, ch, method, properties, body, ):
         msg = loads(body.decode())
-        print(f"Received request for: {msg['message']['VehicleId']}")
+        print(f"Received request for: {msg['message']}")
         val = self.handler_func(msg["message"])
         if self.sender:
             self.sender.send_message(body=body, message=val)
