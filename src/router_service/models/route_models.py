@@ -55,6 +55,14 @@ class Segment(BaseModel):
     time: datetime = None
     price: float = 0
 
+    def calculate_price(self, price_model):
+        """
+        Calculate the price of the segment.
+
+        :return: None.
+        """
+        self.price = 0
+
 
 class Route(BaseModel):
     """
@@ -85,6 +93,16 @@ class Route(BaseModel):
         :return: None.
         """
         self.segments.append(segment)
+
+    def calculate_price(self):
+        """
+        Calculate the price of the route.
+
+        :return: None.
+        """
+        self.price_total = 0
+        for segment in self.segments:
+            self.price_total += segment.price
 
 
 class RouteDTO(BaseModel):

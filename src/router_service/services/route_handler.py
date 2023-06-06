@@ -6,8 +6,9 @@ from src.router_service.services.calculator import Calculator
 
 
 class RouteHandler:
-    def __init__(self, region):
+    def __init__(self, region, price_model):
         self.calculator = Calculator(region=region)
+        self.price_model = price_model
 
     def handle(self, publish_coordinates_dto):
         # --Input--
@@ -20,7 +21,7 @@ class RouteHandler:
         # }
         route = RouteDTO(publish_coordinates_dto["VehicleId"],
                          self.calculator.map_to_map(publish_coordinates_dto["Cords"]))
-
+        
         logging.warning(route.json())
 
         return route
