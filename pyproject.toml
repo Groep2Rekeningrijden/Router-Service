@@ -3,7 +3,7 @@ name = "router-service"
 version = "0.1.0"
 description = ""
 authors = ["David Hellinga <d.hellinga@student.fontys.nl>"]
-packages = [{include = "src"}]
+packages = [{ include = "src" }]
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.12"
@@ -23,12 +23,12 @@ flake8 = "^6.0.0"
 yamllint = "^1.30.0"
 pylint = "^2.17.1"
 flake8-pyproject = "^1.2.3"
-flake8-import-order = "^0.18.2"
 flake8-blind-except = "^0.2.1"
 flake8-comprehensions = "^3.11.1"
 flake8-docstrings = "^1.7.0"
 flake8-print = "^5.0.0"
 flake8-pytest = "^1.4"
+flake8-import-order = "^0.18.2"
 
 [build-system]
 requires = ["poetry-core"]
@@ -48,7 +48,7 @@ markers = [
 
 [tool.flake8]
 max-line-length = 88
-extend-ignore = "E203"
+extend-ignore = ["E203", "I003", "I004"]
 doctests = true
 docstring-convention = "numpy"
 import-order-style = "smarkets"
@@ -67,7 +67,7 @@ exclude = [
 # S101 - Use of assert detected
 # W503 - line break before binary operator
 # E501 - line too long
-ignore = ["D200","D204","S101","W503","E501"]
+ignore = ["D200", "D204", "S101", "W503", "E501"]
 
 # W605 - Invalid regex escape character. Ignored because Pandas still uses them.
 # per-file-ignores =

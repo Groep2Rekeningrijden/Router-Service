@@ -1,20 +1,42 @@
+"""
+The receiver for masstransit.
+"""
 import logging
+from json import loads
 from time import sleep
 
+import pika.exceptions
 from masstransitpython import RabbitMQReceiver
-from json import loads
-
 from src.router_service.services.sender import Sender
 
 
 class Receiver:
+    """
+    The receiver for masstransit.
+    """
+
     def __init__(self, conf, exchange, handler_func, sender: Sender = None):
         self.sender = sender
         self.handler_func = handler_func
         self.conf = conf
         self.exchange = exchange
 
-    def handler(self, ch, method, properties, body, ):
+    def handler(
+        self,
+        ch,
+        method,
+        properties,
+        body,
+    ):
+        """
+        Trigger this when a message is consumed from the queue.
+
+        :param ch:
+        :param method:
+        :param properties:
+        :param body:
+        :return:
+        """
         msg = loads(body.decode())
         val = self.handler_func(msg["message"])
         if self.sender:
@@ -23,6 +45,11 @@ class Receiver:
             return val
 
     def start(self):
+        """
+        Start consuming on the receiver.
+
+        :return:
+        """
         # define receiver
         receiver = None
         attempts = 0
@@ -30,7 +57,8 @@ class Receiver:
             try:
                 receiver = RabbitMQReceiver(self.conf, self.exchange)
                 break
-            except Exception as e:
+            # TODO: Pretty sure this isn't the right error to catch...
+            except pika.exceptions.ConnectionWrongStateError as e:
                 logging.warning(f"Connection to rabbitmq failed {attempts} times...")
                 attempts += 1
                 sleep(5)

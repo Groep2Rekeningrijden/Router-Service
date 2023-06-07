@@ -1,3 +1,6 @@
+"""
+Startup app for the Router Service.
+"""
 import logging
 import os
 
@@ -14,4 +17,5 @@ match os.environ.get("LOG_LEVEL"):
         logging.getLogger().setLevel(logging.ERROR)
     case _:
         logging.getLogger().setLevel(logging.WARNING)
+
 router_service.run()

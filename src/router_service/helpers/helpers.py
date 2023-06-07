@@ -1,27 +1,11 @@
+"""
+Contains helper functions for the router service.
+"""
 import uuid
-from datetime import datetime
 
 import pandas
-
-from src.router_service.models.route_models import Route, Segment, Node, Way
-
-
-def get_halfway_time(start_time_str, end_time_str):
-    # Parse the datetime strings into datetime objects
-    # TODO: This format doesn't match 2023-06-06T21:17:01.042Z
-    start_time = datetime.strptime(start_time_str, '%Y-%m-%dT%H:%M:%S.%fZ')
-    end_time = datetime.strptime(end_time_str, '%Y-%m-%dT%H:%M:%S.%fZ')
-
-    # Calculate the time duration between the two datetime objects
-    duration = end_time - start_time
-
-    # Calculate the halfway time by adding half of the duration to the start time
-    halfway_time = start_time + (duration / 2)
-
-    # Convert the halfway time to a string
-    halfway_time_str = halfway_time.strftime('%Y-%m-%d %H:%M:%S')
-
-    return halfway_time_str
+from src.router_service.helpers.time import get_halfway_time
+from src.router_service.models.route_models import Node, Route, Segment, Way
 
 
 def remove_duplicates(seq):
@@ -36,7 +20,13 @@ def remove_duplicates(seq):
     return [x for x in seq if not (x in seen or seen_add(x))]
 
 
-def get_first_occurrence_index(seq):
+def get_first_occurrence_indexes(seq):
+    """
+    Get a list of indexes for the first time every value appeared in the given list.
+
+    :param seq: The sequence to get the indexes for.
+    :return: A list of indexes for the first time every value appeared in the given list.
+    """
     seen = set()
     seen_add = seen.add
     indexes = []
@@ -47,15 +37,19 @@ def get_first_occurrence_index(seq):
     return indexes
 
 
-def generate_formatted_route(route: list, route_edges: pandas.DataFrame, route_nodes: pandas.DataFrame,
-                             indexed_edge_timestamps: dict[int: tuple[str, str]]
-                             ) -> Route:
+def generate_formatted_route(
+    route: list,
+    route_edges: pandas.DataFrame,
+    route_nodes: pandas.DataFrame,
+    indexed_edge_timestamps: dict[int : tuple[str, str]],
+) -> Route:
     """
     Generate a route using the Route model as specified in the route_models.
 
     :param route: List of ordered nodes in the route.
     :param route_edges: Dataframe containing the edges of the route in order.
     :param route_nodes: Dataframe containing the nodes of the route.
+    :param indexed_edge_timestamps: Timestamps with same index as the edge they belong to.
     :return: The route as a Route model.
 
     """
@@ -69,21 +63,33 @@ def generate_formatted_route(route: list, route_edges: pandas.DataFrame, route_n
 
         out.add_segment(
             Segment(
-                start=Node(id=node, lon=start_data["lon"], lat=start_data["lat"], time=start),
+                start=Node(
+                    id=node, lon=start_data["lon"], lat=start_data["lat"], time=start
+                ),
                 way=Way(
                     id=way_data["osmid"],
                     name=way_data["name"],
                     highway=way_data["highway"],
                     length=way_data["length"] / 1000,
                 ),
-                end=Node(id=next_node, lon=end_data["lon"], lat=end_data["lat"], time=end),
-                time=get_halfway_time(start, end)
+                end=Node(
+                    id=next_node, lon=end_data["lon"], lat=end_data["lat"], time=end
+                ),
+                time=get_halfway_time(start, end),
             )
         )
     return out
 
 
 def remove_way_id_lists(route: Route):
+    """
+    Remove the list of osmid's from the way object in each segment.
+
+    This is done because the way object as agreed with other teams has a single way id.
+
+    :param route: The route with segments that way id list have to be removed from.
+    :return: The route with the lists replaced with their first element.
+    """
     for seg in route.segments:
         if type(seg.way.osmid) is list:
             seg.way.osmid = seg.way.osmid[0]

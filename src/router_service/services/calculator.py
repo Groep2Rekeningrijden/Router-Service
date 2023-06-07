@@ -1,3 +1,6 @@
+"""
+The main route calculator.
+"""
 import json
 import logging
 import os
@@ -6,17 +9,29 @@ import networkx
 import osmnx
 import pandas
 from networkx import MultiDiGraph
-from osmnx import settings, projection
-
+from osmnx import projection, settings
 from src.router_service.helpers import custom_nearest_edge as cne
-from src.router_service.helpers.helpers import remove_duplicates, generate_formatted_route
-from src.router_service.helpers.time import get_start_and_end_time_of_edges, match_timestamps, fill_timestamps
+from src.router_service.helpers.helpers import (
+    generate_formatted_route,
+    remove_duplicates,
+)
+from src.router_service.helpers.time import (
+    fill_timestamps,
+    get_start_and_end_time_of_edges,
+    match_timestamps,
+)
 from src.router_service.models.route_models import Route
 
 
 class Calculator:
+    """
+    Route calculator service using osmnx and networkx.
+    """
 
     def __init__(self):
+        """
+        Initialize the calculator.
+        """
         self.area_graph = self.init_osmnx()
         self.geom, self.rtree = cne.init_rtree(self.area_graph)
 
@@ -43,13 +58,18 @@ class Calculator:
             case "PLACE":
                 # create graph from OSM within the boundaries of some
                 # geocodable place(s)
-                region = os.environ['REGION']
+                region = os.environ["REGION"]
                 osmnx_map = osmnx.graph_from_place(region, network_type=mode)
             case "BBOX":
                 # create graph from OSM within a bounding box
-                region = json.loads(os.environ['REGION'])
-                osmnx_map = osmnx.graph_from_bbox(north=region['north'], south=region['south'], east=region['east'],
-                                                  west=region['west'], network_type=mode)
+                region = json.loads(os.environ["REGION"])
+                osmnx_map = osmnx.graph_from_bbox(
+                    north=region["north"],
+                    south=region["south"],
+                    east=region["east"],
+                    west=region["west"],
+                    network_type=mode,
+                )
             case _:
                 raise ValueError("Invalid region type or no region type")
         osmnx_map = projection.project_graph(osmnx_map, to_crs="EPSG:4326")
@@ -75,9 +95,9 @@ class Calculator:
         extra_edges = remove_duplicates(extra_edges)
         return extra_edges
 
-    def get_sorted_route_df(self,
-                            route_node_ids: list
-                            ) -> (pandas.DataFrame, pandas.DataFrame):
+    def get_sorted_route_df(
+        self, route_node_ids: list
+    ) -> (pandas.DataFrame, pandas.DataFrame):
         """
         Generate the route edges and nodes tables.
 
@@ -87,14 +107,17 @@ class Calculator:
         :param route_node_ids: The route to be mapped in the form of an ordered list of nodes.
         :return: The route edges and nodes tables.
         """
-        route_nodes, route_edges = osmnx.graph_to_gdfs(self.area_graph.subgraph(route_node_ids))
+        route_nodes, route_edges = osmnx.graph_to_gdfs(
+            self.area_graph.subgraph(route_node_ids)
+        )
         route_edges = route_edges.reset_index()
         # Sort the route table
         previous_node = None
         for index, node in enumerate(route_node_ids):
             # Find next node and filter out backwards routes
             route_edges.loc[
-                (route_edges["u"] == node) & ~(route_edges["v"] == previous_node), "order"
+                (route_edges["u"] == node) & ~(route_edges["v"] == previous_node),
+                "order",
             ] = index
             previous_node = node
         route_edges = route_edges.loc[~route_edges["order"].isnull()].sort_values(
@@ -112,10 +135,14 @@ class Calculator:
         """
         # Get a list of edges that are the nearest to the given coordinates
         nearest_edges = [
-            cne.nearest_edges(self.geom, self.rtree, coordinate["lat"], coordinate["long"])
+            cne.nearest_edges(
+                self.geom, self.rtree, coordinate["lat"], coordinate["long"]
+            )
             for coordinate in coordinates
         ]
-        edge_start_end_timestamps = get_start_and_end_time_of_edges(coordinates, nearest_edges)
+        edge_start_end_timestamps = get_start_and_end_time_of_edges(
+            coordinates, nearest_edges
+        )
         nearest_edges = remove_duplicates(nearest_edges)
 
         # Determine the start and end of the route
@@ -145,15 +172,25 @@ class Calculator:
                 )
                 path_found = True
             except networkx.exception.NetworkXNoPath:
-                logging.warning(f"No path found with {extra_edge_generations} extra edges, generating next set")
-                combined_edges = remove_duplicates(combined_edges + self.fill_edge_gaps(combined_edges))
+                logging.warning(
+                    f"No path found with {extra_edge_generations} extra edges, generating next set"
+                )
+                combined_edges = remove_duplicates(
+                    combined_edges + self.fill_edge_gaps(combined_edges)
+                )
                 extra_edge_generations += 1
 
         # Get the route edges and nodes tables
         route_edges, route_nodes = self.get_sorted_route_df(route_node_ids)
 
-        indexed_edge_timestamps = match_timestamps(nearest_edges, route_edges, edge_start_end_timestamps)
-        indexed_edge_timestamps = fill_timestamps(indexed_edge_timestamps, len(route_edges.index)-1)
+        indexed_edge_timestamps = match_timestamps(
+            nearest_edges, route_edges, edge_start_end_timestamps
+        )
+        indexed_edge_timestamps = fill_timestamps(
+            indexed_edge_timestamps, len(route_edges.index) - 1
+        )
 
         # Create the route object from the tables
-        return generate_formatted_route(route_node_ids, route_edges, route_nodes, indexed_edge_timestamps)
+        return generate_formatted_route(
+            route_node_ids, route_edges, route_nodes, indexed_edge_timestamps
+        )
