@@ -17,14 +17,15 @@ services:
       - MASSTRANSIT_INPUT=Coordinate_Service.DTOs:PublishCoordinatesDTO
       - MASSTRANSIT_OUTPUT=LTS.DTOs:RouteDTO
       # Include http/https and endpoint
-      - PAYMENT_SERVICE_URL=http://localhost:5051/getPrices
-      - CAR_SERVICE_URL=http://localhost:5055/vehicle
+      - PAYMENT_SERVICE_URL=http://payment-service/getPrices
+      - CAR_SERVICE_URL=http://car-service/vehicle
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
-      - RABBITMQ_HOST=localhost
+      - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
       - RABBITMQ_VIRTUAL_HOST=/
       - RABBITMQ_QUEUE=py-router
+      - LOG_LEVEL=WARNING
     volumes:
       - osmnx-cache:/osmnx-cache
 

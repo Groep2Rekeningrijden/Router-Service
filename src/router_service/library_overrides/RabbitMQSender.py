@@ -6,6 +6,8 @@ from pika import ConnectionParameters
 from json import dumps
 import logging
 
+from src.router_service.models.message_envelope import MessageEnvelope
+
 
 class RabbitMQSender(object):
     __slots__ = ["_configuration", "_connection", "_channel", "_queue", "_routing_key", "_exchange"]
@@ -51,23 +53,27 @@ class RabbitMQSender(object):
         logging.warning(f"Message published to {self._queue} queue\n")
 
     def create_masstransit_response(self, message, request_body):
-        response = {
-            "messageId": request_body['messageId'],
-            "conversationId": request_body['conversationId'],
-            "sourceAddress": request_body['sourceAddress'],
-            "destinationAddress": request_body['destinationAddress'],
-            "messageType": ['urn:message:' + self._exchange],
-            "message": message
-        }
         # response = {
-        #     "messageId": uuid.uuid4(),
+        #     "messageId": request_body['messageId'],
         #     "conversationId": request_body['conversationId'],
-        #     "sourceAddress": request_body['destinationAddress'],
-        #     "destinationAddress": f"rabbitmq://rabbitmq/{self._exchange}",
+        #     "sourceAddress": request_body['sourceAddress'],
+        #     "destinationAddress": request_body['destinationAddress'],
         #     "messageType": ['urn:message:' + self._exchange],
         #     "message": message
         # }
-        return dumps(response)
+        # response = {
+        #     "messageId": str(uuid.uuid4()),
+        #     "conversationId": request_body['conversationId'],
+        #     "messageType": ['urn:message:' + self._exchange],
+        #     "message": message
+        # }
+        # return dumps(response)
+        return MessageEnvelope(
+            messageId=uuid.uuid4(),
+            conversationId=request_body['conversationId'],
+            messageType=['urn:message:' + self._exchange],
+            message=message
+        ).json(by_alias=True)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._connection.close()

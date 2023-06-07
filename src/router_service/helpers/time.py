@@ -31,49 +31,44 @@ def match_timestamps(nearest_edges: list[(int, int, int)], route_edges: GeoDataF
     return return_timestamps
 
 
-def fill_timestamps(indexed_edge_timestamps: dict[int: tuple[str, str]], highest_index: int):
+def fill_timestamps(edge_timestamps: dict[int: tuple[str, str]], highest_index: int):
     """
     Fill in the missing indexes using neighbouring timestamps.
     """
-    try:
-        if 0 not in indexed_edge_timestamps.keys():
-            propagate_nearest_timestamp(indexed_edge_timestamps, 0, highest_index)
-        if highest_index not in indexed_edge_timestamps.keys():
-            propagate_nearest_timestamp(indexed_edge_timestamps, highest_index, 0, upwards=False)
-        for i in range(highest_index - 1):
-            if i not in indexed_edge_timestamps.keys():
-                indexed_edge_timestamps = propagate_nearest_timestamp(indexed_edge_timestamps, i, highest_index)
-        return indexed_edge_timestamps
-    except KeyError as e:
-        logging.error(highest_index)
-        logging.error(json.dumps(indexed_edge_timestamps))
-        raise e
+    missing_ranges = []
+    # Find ranges of missing indexes
+    for i in range(highest_index):
+        if i in edge_timestamps.keys():
+            continue
+        if len(missing_ranges) == 0:
+            missing_ranges.append([i])
+        elif missing_ranges[-1][-1] == i - 1:
+            missing_ranges[-1].append(i)
+        else:
+            missing_ranges.append([i])
 
+    # First, make sure index 0 and highest_index have timestamps
+    # by setting all elements in that list to the first/last element that has a timestamp
+    if 0 in missing_ranges[0]:
+        for i in missing_ranges[0]:
+            edge_timestamps[i] = edge_timestamps[max(missing_ranges[0]) + 1]
+        missing_ranges.pop(0)
+    if highest_index in missing_ranges[-1]:
+        for i in missing_ranges[-1]:
+            edge_timestamps[i] = edge_timestamps[min(missing_ranges[-1]) - 1]
+        missing_ranges.pop(-1)
 
-def propagate_nearest_timestamp(indexed_edge_timestamps, index, highest_index, upwards=True):
-    if upwards:
-        stop = highest_index
-        start = index + 1
-        mod = 1
-    else:
-        stop = 0
-        start = index - 1
-        mod = -1
-    # If the next element has a timestamp
-    if start in indexed_edge_timestamps:
-        # Use it IF the current index is the first or last element, since those can't pull from both sides
-        if index == 0 or index == highest_index - 1:
-            indexed_edge_timestamps[index] = indexed_edge_timestamps[start]
-            return indexed_edge_timestamps
-        # Otherwise, combine from previous and next element
-        indexed_edge_timestamps[index] = (indexed_edge_timestamps[index - 1][1], indexed_edge_timestamps[index + 1][0])
-        return indexed_edge_timestamps
+    for index, missing_range in enumerate(missing_ranges):
+        # For longer ranges, full copy both sides, then check if any elements are left empty
+        while len(missing_range) > 1:
+            edge_timestamps[missing_range[0]] = edge_timestamps[min(missing_range) - 1]
+            missing_range.pop(0)
+            edge_timestamps[missing_range[-1]] = edge_timestamps[max(missing_range) + 1]
+            missing_range.pop(-1)
+        # Do the 2 way copy for len 1 ranges
+        if len(missing_range) == 1:
+            edge_timestamps[missing_range[0]] = (
+                edge_timestamps[missing_range[0] - 1][1], edge_timestamps[missing_range[0] + 1][0])
+        # This should only leave len 0  ranges, which we can move on from
 
-    # If the next element doesn't have a timestamp, find the next one that does, then propagate backwards
-    for forward_index in range(start, stop, mod):
-        if forward_index + mod in indexed_edge_timestamps:
-            indexed_edge_timestamps[forward_index] = indexed_edge_timestamps[forward_index + mod]
-            for backward_index in range(forward_index, index, - mod):
-                indexed_edge_timestamps[backward_index - mod] = indexed_edge_timestamps[backward_index]
-            return indexed_edge_timestamps
-    return indexed_edge_timestamps
+    return edge_timestamps

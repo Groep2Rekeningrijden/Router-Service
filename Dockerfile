@@ -1,16 +1,32 @@
-FROM python:3.11 as python
-ENV PYTHONUNBUFFERED=true
+FROM python:3.11 as base
+
+ENV PYTHONFAULTHANDLER=1 \
+    PYTHONHASHSEED=random \
+    PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
-FROM python as poetry
-ENV POETRY_HOME=/opt/poetry
-ENV POETRY_VIRTUALENVS_IN_PROJECT=true
-ENV PATH="$POETRY_HOME/bin:$PATH"
-RUN pip3 install poetry
-COPY . ./
-RUN poetry install --no-interaction --no-ansi --no-dev
+FROM base as builder
 
-FROM python as runtime
-ENV PATH="/app/.venv/bin:$PATH"
-COPY --from=poetry /app /app
-CMD ["python3", "app.py"]
+ENV PIP_DEFAULT_TIMEOUT=100 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1 \
+    POETRY_VERSION=1.5.1
+
+#RUN apk add --no-cache gcc libffi-dev musl-dev postgresql-dev
+RUN pip install "poetry==$POETRY_VERSION"
+RUN python -m venv /venv
+
+COPY pyproject.toml poetry.lock ./
+RUN poetry export -f requirements.txt | /venv/bin/pip install -r /dev/stdin
+
+COPY . .
+RUN poetry build && /venv/bin/pip install dist/*.whl
+
+FROM base as final
+
+#RUN apk add --no-cache libffi libpq
+COPY --from=builder /venv /venv
+COPY . .
+CMD ["/venv/bin/python", "app.py"]
+#CMD ["sleep","1200"]

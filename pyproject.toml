@@ -3,7 +3,6 @@ name = "router-service"
 version = "0.1.0"
 description = ""
 authors = ["David Hellinga <d.hellinga@student.fontys.nl>"]
-readme = "README.md"
 packages = [{include = "src"}]
 
 [tool.poetry.dependencies]

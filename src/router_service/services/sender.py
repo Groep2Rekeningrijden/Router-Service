@@ -1,4 +1,5 @@
 import json
+import logging
 
 # from masstransitpython import RabbitMQSender
 from pydantic import BaseModel
@@ -20,6 +21,8 @@ class Sender:
         with RabbitMQSender(self.conf) as sender:
             sender.set_exchange(exchange=self.exchange)
 
-            encoded_msg = message.json(by_alias=True)
-            response = sender.create_masstransit_response(encoded_msg, json.loads(body))
+            # encoded_msg = message.json(by_alias=True)
+            # encoded_msg = message.dict(by_alias=True)
+            # response = sender.create_masstransit_response(encoded_msg, json.loads(body))
+            response = sender.create_masstransit_response(message, json.loads(body))
             sender.publish(message=response)
