@@ -1,102 +1,59 @@
+import json
+import logging
+import os
+
 import networkx
 import osmnx
 import pandas
-from geopandas import GeoDataFrame
 from networkx import MultiDiGraph
 from osmnx import settings, projection
 
 from src.router_service.helpers import custom_nearest_edge as cne
-from src.router_service.helpers.helpers import remove_duplicates, generate_formatted_route, get_first_occurrence_index
+from src.router_service.helpers.helpers import remove_duplicates, generate_formatted_route
+from src.router_service.helpers.time import get_start_and_end_time_of_edges, match_timestamps, fill_timestamps
 from src.router_service.models.route_models import Route
-
-
-def get_start_and_end_time_of_edges(coordinates: list, nearest_edges: list) -> list[(str, str)]:
-    first_occurrence_index = get_first_occurrence_index(nearest_edges)
-    last_occurrence_index = get_first_occurrence_index(nearest_edges[::-1])
-    # Get the first timestamp
-    first_occurrence_timestamps = [[coordinate["timeStamp"] for coordinate in coordinates][i]
-                                   for i in first_occurrence_index]
-    last_occurrence_timestamps = [[coordinate["timeStamp"] for coordinate in coordinates][i]
-                                  for i in last_occurrence_index]
-    # No idea why but the timestamps where the wrong way around. Now they feel like they should be wrong but aren't...
-    return [(x, y) for x, y in zip(last_occurrence_timestamps, first_occurrence_timestamps)]
-
-
-def match_timestamps(nearest_edges: list[(int, int, int)], route_edges: GeoDataFrame,
-                     edge_start_end_timestamps: list[(str, str)]):
-    working_copy = route_edges.copy().reset_index()
-    return_timestamps = {}
-    for i, edge in working_copy.iterrows():
-        try:
-            index = nearest_edges.index((edge["u"], edge["v"], edge["key"]))
-            return_timestamps[i] = edge_start_end_timestamps[index]
-        except ValueError:
-            continue
-    return return_timestamps
-
-
-def fill_timestamps(indexed_edge_timestamps: dict[int: tuple[str, str]], highest_index: int):
-    """
-    Fill in the missing indexes using neighbouring timestamps.
-    """
-    if 0 not in indexed_edge_timestamps.keys():
-        propagate_nearest_timestamp(indexed_edge_timestamps, 0)
-    if highest_index not in indexed_edge_timestamps.keys():
-        propagate_nearest_timestamp(indexed_edge_timestamps, highest_index, upwards=False)
-    for i in range(highest_index):
-        if i not in indexed_edge_timestamps.keys():
-            indexed_edge_timestamps = propagate_nearest_timestamp(indexed_edge_timestamps, i)
-            indexed_edge_timestamps[i] = (indexed_edge_timestamps[i - 1][1], indexed_edge_timestamps[i + 1][0])
-    return indexed_edge_timestamps
-
-
-def propagate_nearest_timestamp(indexed_edge_timestamps, index, upwards=True):
-
-    if upwards:
-        stop = len(indexed_edge_timestamps)
-        start = index + 1
-        mod = 1
-    else:
-        stop = 0
-        start = index
-        mod = -1
-    if start in indexed_edge_timestamps:
-        return indexed_edge_timestamps
-
-    for forward_index in range(start, stop):
-        if forward_index + mod in indexed_edge_timestamps:
-            indexed_edge_timestamps[forward_index] = indexed_edge_timestamps[forward_index + mod]
-            for backward_index in range(forward_index, start, mod):
-                indexed_edge_timestamps[backward_index - mod] = indexed_edge_timestamps[backward_index]
-            return indexed_edge_timestamps
-    return indexed_edge_timestamps
 
 
 class Calculator:
 
-    def __init__(self, region: str):
-        self.area_graph = self.init_osmnx(region)
+    def __init__(self):
+        self.area_graph = self.init_osmnx()
         self.geom, self.rtree = cne.init_rtree(self.area_graph)
 
     @staticmethod
-    def init_osmnx(region: str) -> MultiDiGraph:
+    def init_osmnx() -> MultiDiGraph:
         """
         Initialize OSMNX with configuration.
 
-        :param region: The region for which to generate a map
         :return osmnx_map: The OSMNX map of the given region as a networkx multidimensional graph
         """
+        logging.warning("Starting OSMNX...")
         # Configure osmnx, area and routing settings
         # For settings see https://osmnx.readthedocs.io/en/stable/osmnx.html?highlight=settings#module-osmnx.settings
-        settings.log_console = True
+        settings.log_console = False
         settings.use_cache = True
+        cache_folder = os.environ.get("CACHE_FOLDER")
+        if cache_folder:
+            settings.cache_folder = cache_folder
 
         # find the shortest route based on the mode of travel
         mode = "drive"  # 'drive', 'bike', 'walk'
-        # create graph from OSM within the boundaries of some
-        # geocodable place(s)
-        osmnx_map = osmnx.graph_from_place(region, network_type=mode)
+        REGION_TYPE = os.environ.get("REGION_TYPE")
+        match REGION_TYPE:
+            case "PLACE":
+                # create graph from OSM within the boundaries of some
+                # geocodable place(s)
+                region = os.environ['REGION']
+                osmnx_map = osmnx.graph_from_place(region, network_type=mode)
+            case "BBOX":
+                # create graph from OSM within a bounding box
+                region = json.loads(os.environ['REGION'])
+                osmnx_map = osmnx.graph_from_bbox(north=region['north'], south=region['south'], east=region['east'],
+                                                  west=region['west'], network_type=mode)
+            case _:
+                raise ValueError("Invalid region type or no region type")
         osmnx_map = projection.project_graph(osmnx_map, to_crs="EPSG:4326")
+        logging.warning("OSMNX initialized")
 
         return osmnx_map
 
@@ -173,21 +130,30 @@ class Calculator:
             else nearest_edges[-1][1]
         )
 
-        # Fill in the gaps between the nearest edges by adding all connected edges
-        extra_edges = self.fill_edge_gaps(nearest_edges)
-
-        # Find the shortest route between the start and end using the filled graph
-        route_node_ids = networkx.shortest_path(
-            self.area_graph.edge_subgraph(nearest_edges + extra_edges),
-            start,
-            end,
-        )
+        # Generate extra edges until shortest route exists
+        route_node_ids = None
+        extra_edge_generations = 0
+        path_found = False
+        combined_edges = nearest_edges
+        while not path_found:
+            try:
+                # Find the shortest route between the start and end using the filled graph
+                route_node_ids = networkx.shortest_path(
+                    self.area_graph.edge_subgraph(combined_edges),
+                    start,
+                    end,
+                )
+                path_found = True
+            except networkx.exception.NetworkXNoPath:
+                logging.warning(f"No path found with {extra_edge_generations} extra edges, generating next set")
+                combined_edges = remove_duplicates(combined_edges + self.fill_edge_gaps(combined_edges))
+                extra_edge_generations += 1
 
         # Get the route edges and nodes tables
         route_edges, route_nodes = self.get_sorted_route_df(route_node_ids)
 
         indexed_edge_timestamps = match_timestamps(nearest_edges, route_edges, edge_start_end_timestamps)
-        indexed_edge_timestamps = fill_timestamps(indexed_edge_timestamps, len(route_edges.index))
+        indexed_edge_timestamps = fill_timestamps(indexed_edge_timestamps, len(route_edges.index)-1)
 
         # Create the route object from the tables
         return generate_formatted_route(route_node_ids, route_edges, route_nodes, indexed_edge_timestamps)

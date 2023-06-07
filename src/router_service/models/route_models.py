@@ -4,7 +4,7 @@ Route models.
 import uuid
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Node(BaseModel):
@@ -16,10 +16,10 @@ class Node(BaseModel):
     :param lon: Longitude
     """
 
-    osmid: int
-    lat: float
-    lon: float
-    time: datetime = None
+    osmid: int = Field(alias="id")
+    lat: float = Field(alias="lat")
+    lon: float = Field(alias="lon")
+    time: datetime = Field(exclude=True)
 
 
 class Way(BaseModel):
@@ -32,11 +32,12 @@ class Way(BaseModel):
     :param length: Length in meters
     """
 
-    osmid: int | list[int]
-    name: str | list[str]
-    highway: str | list[str]
-    length: float
-    time: datetime = None
+    osmid: int | list[int] = Field(alias="id")
+    name: str | list[str] = Field(exclude=True)
+    highway: str | list[str] = Field(exclude=True)
+    # TODO: Add boundary to the model
+    # boundary: str | list[str]
+    length: float = Field(exclude=True)
 
 
 class Segment(BaseModel):
@@ -50,11 +51,11 @@ class Segment(BaseModel):
     :param price: Price of the segment
     """
 
-    start: Node
-    way: Way
-    end: Node
-    time: datetime = None
-    price: float = 0
+    start: Node = Field(alias="start")
+    way: Way = Field(alias="way")
+    end: Node = Field(alias="end")
+    time: datetime = Field(alias="time", default=None)
+    price: float = Field(alias="price", default=0.0)
 
 
 class Route(BaseModel):
@@ -66,9 +67,9 @@ class Route(BaseModel):
     :param segments: Segments of the route. Defaults to empty if not given
     """
 
-    route_id: uuid.UUID = uuid.uuid4()
-    price_total: float = 0
-    segments: list[Segment] = None
+    vehicle_id: uuid.UUID = Field(alias="id", default=None)
+    price_total: float = Field(alias="priceTotal", default=0.0)
+    segments: list[Segment] = Field(alias="segments", default=None)
 
     def __init__(self, *args, **kwargs):
         """
@@ -86,14 +87,3 @@ class Route(BaseModel):
         :return: None.
         """
         self.segments.append(segment)
-
-
-class RouteDTO(BaseModel):
-    """
-    Model for transmitting route.
-
-    :param VehicleId: ID of the vehicle
-    :param Route: The Route object
-    """
-    VehicleId: uuid.UUID
-    Route: Route

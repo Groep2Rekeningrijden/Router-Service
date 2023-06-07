@@ -3,6 +3,7 @@
     """
 import json
 import logging
+import os
 
 import requests
 
@@ -10,14 +11,13 @@ from src.router_service.models.price_model import PriceModel
 from src.router_service.models.vehicle import Vehicle
 
 
-def get_prices() -> PriceModel:
+def get_prices(payment_service_url) -> PriceModel:
     """
     Gets the price model from the payment service.
     :return: Price model
     """
     try:
-        # response = requests.get('https://payment-service/getPrices')
-        response = requests.get('http://localhost:5051/getPrices')
+        response = requests.get(payment_service_url)
         response.raise_for_status()
         price_model = PriceModel.parse_obj(response.json())
     except requests.exceptions.RequestException as e:
@@ -26,15 +26,15 @@ def get_prices() -> PriceModel:
     return price_model
 
 
-def get_vehicle(vehicle_id) -> Vehicle:
+def get_vehicle(car_service_url, vehicle_id) -> Vehicle:
     """
     Gets the vehicle from the car service.
+    :param car_service_url: Car service url
     :param vehicle_id: Vehicle id
     :return: Vehicle model
     """
     try:
-        # response = requests.get(f'https://car-service/vehicle?vehicleId={vehicle_id}')
-        response = requests.get(f'https://localhost:5055/vehicle?vehicleId={vehicle_id}')
+        response = requests.get(car_service_url, params={"vehicleId": vehicle_id})
         response.raise_for_status()
         vehicle = Vehicle.parse_obj(response.json())
     except requests.exceptions.RequestException as e:

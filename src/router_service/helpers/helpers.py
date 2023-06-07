@@ -9,8 +9,8 @@ from src.router_service.models.route_models import Route, Segment, Node, Way
 def get_halfway_time(start_time_str, end_time_str):
     # Parse the datetime strings into datetime objects
     # TODO: This format doesn't match 2023-06-06T21:17:01.042Z
-    start_time = datetime.strptime(start_time_str, '%Y-%m-%d %H:%M:%S')
-    end_time = datetime.strptime(end_time_str, '%Y-%m-%d %H:%M:%S')
+    start_time = datetime.strptime(start_time_str, '%Y-%m-%dT%H:%M:%S.%fZ')
+    end_time = datetime.strptime(end_time_str, '%Y-%m-%dT%H:%M:%S.%fZ')
 
     # Calculate the time duration between the two datetime objects
     duration = end_time - start_time
@@ -69,15 +69,22 @@ def generate_formatted_route(route: list, route_edges: pandas.DataFrame, route_n
 
         out.add_segment(
             Segment(
-                start=Node(osmid=node, lon=start_data["lon"], lat=start_data["lat"], time=start),
+                start=Node(id=node, lon=start_data["lon"], lat=start_data["lat"], time=start),
                 way=Way(
-                    osmid=way_data["osmid"],
+                    id=way_data["osmid"],
                     name=way_data["name"],
                     highway=way_data["highway"],
-                    length=way_data["length"],
-                    time=get_halfway_time(start, end)
+                    length=way_data["length"] / 1000,
                 ),
-                end=Node(osmid=next_node, lon=end_data["lon"], lat=end_data["lat"], time=end),
+                end=Node(id=next_node, lon=end_data["lon"], lat=end_data["lat"], time=end),
+                time=get_halfway_time(start, end)
             )
         )
     return out
+
+
+def remove_way_id_lists(route: Route):
+    for seg in route.segments:
+        if type(seg.way.osmid) is list:
+            seg.way.osmid = seg.way.osmid[0]
+    return route
