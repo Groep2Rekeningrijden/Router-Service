@@ -3,6 +3,9 @@ Handler for route messages.
 """
 import logging
 import os
+from time import sleep
+
+import requests.exceptions
 
 import src.router_service.services.data_fetcher as data_fetcher
 from src.router_service.helpers.helpers import remove_way_id_lists
@@ -20,9 +23,19 @@ class RouteHandler:
         self.CAR_SERVICE_URL = os.environ.get("CAR_SERVICE_URL")
 
         self.calculator = Calculator()
-        self.pricer = Pricer(
-            price_model=data_fetcher.get_prices(self.PAYMENT_SERVICE_URL)
-        )
+        tries = 0
+        try:
+            price_model = data_fetcher.get_prices(self.PAYMENT_SERVICE_URL)
+            self.pricer = Pricer(
+                price_model=price_model
+            )
+        except requests.exceptions.ConnectionError as e:
+            tries += 1
+            if tries > 10:
+                raise e
+            sleep(5)
+
+
 
     def handle(self, publish_coordinates_dto):
         """
