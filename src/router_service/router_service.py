@@ -1,6 +1,7 @@
 """
 Router service.
 """
+import logging
 import os
 
 from masstransitpython import RabbitMQConfiguration
@@ -35,6 +36,7 @@ def run():
     route_handler = RouteHandler()
     sender = Sender(conf, MASSTRANSIT_OUTPUT)
     receiver = Receiver(conf, MASSTRANSIT_INPUT, route_handler.handle, sender)
+    logging.warning("Waiting for routes...")
     receiver.start()
 
 

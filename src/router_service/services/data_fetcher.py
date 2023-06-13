@@ -5,7 +5,7 @@ import logging
 
 import requests
 from src.router_service.models.price_model import PriceModel
-from src.router_service.models.vehicle import Vehicle
+from src.router_service.models.vehicle import Vehicle, VehicleInt
 
 
 def get_prices(payment_service_url) -> PriceModel:
@@ -24,7 +24,7 @@ def get_prices(payment_service_url) -> PriceModel:
     return price_model
 
 
-def get_vehicle(car_service_url, vehicle_id) -> Vehicle:
+def get_vehicle(car_service_url, vehicle_id) -> VehicleInt:
     """
     Get the vehicle from the car service.
 
@@ -36,6 +36,11 @@ def get_vehicle(car_service_url, vehicle_id) -> Vehicle:
         response = requests.get(car_service_url, params={"vehicleId": vehicle_id})
         response.raise_for_status()
         vehicle = Vehicle.parse_obj(response.json())
+        vehicle = VehicleInt(
+            id=vehicle.id,
+            vehicleClassification=vehicle.vehicleClassification,
+            fuelType=vehicle.fuelType,
+        )
     except requests.exceptions.RequestException as e:
         logging.error(f"Could not get vehicle with id {vehicle_id} from car service.")
         raise e

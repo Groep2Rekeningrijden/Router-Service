@@ -1,7 +1,7 @@
 """
 Models for pricing.
 """
-from typing import List
+from typing import Iterable, List
 
 from pydantic import BaseModel
 
@@ -25,7 +25,7 @@ class PriceModel(BaseModel):
 
     __root__: List[PriceModifier]
 
-    def __iter__(self):
+    def __iter__(self) -> Iterable[PriceModifier]:
         """
         Get the iterable list.
 

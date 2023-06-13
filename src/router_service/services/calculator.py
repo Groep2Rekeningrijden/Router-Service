@@ -11,10 +11,8 @@ import pandas
 from networkx import MultiDiGraph
 from osmnx import projection, settings
 from src.router_service.helpers import custom_nearest_edge as cne
-from src.router_service.helpers.helpers import (
-    generate_formatted_route,
-    remove_duplicates,
-)
+from src.router_service.helpers.helpers import remove_duplicates
+from src.router_service.helpers.route_formatter import generate_formatted_route
 from src.router_service.helpers.time import (
     fill_timestamps,
     get_start_and_end_time_of_edges,
@@ -96,7 +94,7 @@ class Calculator:
         return extra_edges
 
     def get_sorted_route_df(
-        self, route_node_ids: list
+            self, route_node_ids: list
     ) -> (pandas.DataFrame, pandas.DataFrame):
         """
         Generate the route edges and nodes tables.
@@ -126,22 +124,24 @@ class Calculator:
         route_edges = route_edges.drop(columns=["order"]).set_index(["u", "v", "key"])
         return route_edges, route_nodes
 
-    def map_to_map(self, coordinates: list) -> Route:
+    def map_to_map(self, coordinates: list, longitude_field: str, time_field: str) -> Route:
         """
         Map the given coordinates to the given map.
 
+        :param time_field:
+        :param longitude_field:
         :param coordinates: The coordinates to map
         :return:
         """
         # Get a list of edges that are the nearest to the given coordinates
         nearest_edges = [
             cne.nearest_edges(
-                self.geom, self.rtree, coordinate["lat"], coordinate["long"]
+                self.geom, self.rtree, lons=coordinate["lat"], lats=coordinate[longitude_field]
             )
             for coordinate in coordinates
         ]
         edge_start_end_timestamps = get_start_and_end_time_of_edges(
-            coordinates, nearest_edges
+            coordinates, nearest_edges, time_field
         )
         nearest_edges = remove_duplicates(nearest_edges)
 

@@ -1,6 +1,6 @@
 services:
-  router-brussels:
-    image: fontyssa/router-brussels
+  router-service:
+    image: fontyssa/router-service
     build:
       context: .
       dockerfile: Dockerfile

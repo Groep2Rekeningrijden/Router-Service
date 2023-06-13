@@ -8,7 +8,7 @@ from src.router_service.helpers.price_helpers import (
 )
 from src.router_service.models.price_model import PriceModel
 from src.router_service.models.route_models import Route
-from src.router_service.models.vehicle import Vehicle
+from src.router_service.models.vehicle import VehicleInt
 
 
 class Pricer:
@@ -50,7 +50,7 @@ class Pricer:
                         price.valueDescription
                     )
 
-    def calculate_price(self, route: Route, vehicle: Vehicle):
+    def calculate_price(self, route: Route, vehicle: VehicleInt):
         """
         Calculate the price of a route for the given vehicle.
 
@@ -59,7 +59,7 @@ class Pricer:
         :return: The route with prices added
         """
         vehicle_classification_mod = get_price_mod_for(
-            [vehicle.classification], self.vehicle_classification_lookup
+            [vehicle.vehicleClassification], self.vehicle_classification_lookup
         )
         fuel_type_mod = get_price_mod_for([vehicle.fuelType], self.fuel_type_lookup)
 
@@ -77,7 +77,7 @@ class Pricer:
             distance = segment.way.length
             highway_mod = get_price_mod_for(segment.way.highway, self.highway_lookup)
             # TODO: boundary_mod = get_price_mod_for(segment.way.boundary, self.boundary_lookup)
-            rush_hour_mod = self.rush_lookup.get(segment.time.hour, 0)
+            rush_hour_mod = self.rush_lookup.get(str(segment.time.hour), 0)
             total_mod = int_to_percent_increase_multiplier(
                 highway_mod + vehicle_classification_mod + fuel_type_mod + rush_hour_mod
             )

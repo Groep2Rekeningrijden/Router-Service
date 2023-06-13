@@ -8,11 +8,12 @@ from src.router_service.helpers.helpers import get_first_occurrence_indexes
 
 
 def get_start_and_end_time_of_edges(
-    coordinates: list, nearest_edges: list
+    coordinates: list, nearest_edges: list, time_field: str
 ) -> list[(str, str)]:
     """
     Get the first and last timestamp associated with an edge.
 
+    :param time_field:
     :param coordinates: coordinates list with timeStamp property
     :param nearest_edges: the edges to match timestamps to
     :return: the timestamps in the same order the edges are in
@@ -21,11 +22,11 @@ def get_start_and_end_time_of_edges(
     last_occurrence_index = get_first_occurrence_indexes(nearest_edges[::-1])
     # Get the first timestamp
     first_occurrence_timestamps = [
-        [coordinate["timeStamp"] for coordinate in coordinates][i]
+        [coordinate[time_field] for coordinate in coordinates][i]
         for i in first_occurrence_index
     ]
     last_occurrence_timestamps = [
-        [coordinate["timeStamp"] for coordinate in coordinates][i]
+        [coordinate[time_field] for coordinate in coordinates][i]
         for i in last_occurrence_index
     ]
     # No idea why but the timestamps where the wrong way around. Now they feel like they should be wrong but aren't...
@@ -119,8 +120,8 @@ def get_halfway_time(time_one, time_two):
     """
     # Parse the datetime strings into datetime objects
     # TODO: This format doesn't match 2023-06-06T21:17:01.042Z
-    start_time = datetime.strptime(time_one, "%Y-%m-%dT%H:%M:%S.%fZ")
-    end_time = datetime.strptime(time_two, "%Y-%m-%dT%H:%M:%S.%fZ")
+    start_time = datetime.fromisoformat(time_one)
+    end_time = datetime.fromisoformat(time_two)
 
     # Calculate the time duration between the two datetime objects
     duration = end_time - start_time
