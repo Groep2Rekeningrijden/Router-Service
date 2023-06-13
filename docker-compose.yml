@@ -13,7 +13,6 @@ services:
       - REGION=Brussels, Belgium
       # Types: PLACE, BBOX
       - REGION_TYPE=PLACE
-      - CACHE_FOLDER=/osmnx-cache
       - MASSTRANSIT_INPUT=Coordinate_Service.DTOs:PublishCoordinatesDTO
       - MASSTRANSIT_OUTPUT=LTS.DTOs:RouteDTO
       # Include http/https and endpoint
@@ -25,6 +24,7 @@ services:
       - RABBITMQ_PORT=5672
       - RABBITMQ_VIRTUAL_HOST=/
       - RABBITMQ_QUEUE=py-router
+      - CACHE_FOLDER=/osmnx-cache
       - LOG_LEVEL=WARNING
     volumes:
       - osmnx-cache:/osmnx-cache
