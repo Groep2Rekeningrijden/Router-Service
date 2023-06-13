@@ -60,7 +60,12 @@ class Calculator:
                 osmnx_map = osmnx.graph_from_place(region, network_type=mode)
             case "BBOX":
                 # create graph from OSM within a bounding box
-                region = json.loads(os.environ["REGION"])
+                region = os.environ["REGION"]
+                # replace @[@ and @]@ with { and } to make it json serializable
+                # needed to deal with yaml go template syntax
+                region = region.replace("@[@", "{")
+                region = region.replace("@]@", "}")
+                region = json.loads(region)
                 osmnx_map = osmnx.graph_from_bbox(
                     north=region["north"],
                     south=region["south"],
