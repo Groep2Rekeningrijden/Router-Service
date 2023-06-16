@@ -16,7 +16,7 @@ class Node(BaseModel):
     :param lon: Longitude
     """
 
-    osmid: int = Field(alias="id")
+    osmid: str = Field(alias="id")
     lat: float = Field(alias="lat")
     lon: float = Field(alias="lon")
     time: datetime = Field(exclude=True)
@@ -32,7 +32,7 @@ class Way(BaseModel):
     :param length: Length in meters
     """
 
-    osmid: int | list[int] = Field(alias="id")
+    osmid: str | list[str] = Field(alias="id")
     name: str | list[str] = Field(exclude=True)
     highway: str | list[str] = Field(exclude=True)
     # TODO: Add boundary to the model

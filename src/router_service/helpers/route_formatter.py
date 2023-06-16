@@ -35,16 +35,16 @@ def generate_formatted_route(
         out.add_segment(
             Segment(
                 start=Node(
-                    id=node, lon=start_data["lon"], lat=start_data["lat"], time=start
+                    id=str(node), lon=start_data["lon"], lat=start_data["lat"], time=start
                 ),
                 way=Way(
-                    id=way_data["osmid"],
+                    id=str(way_data["osmid"]),
                     name=way_data["name"],
                     highway=way_data["highway"],
                     length=way_data["length"] / 1000,
                 ),
                 end=Node(
-                    id=next_node, lon=end_data["lon"], lat=end_data["lat"], time=end
+                    id=str(next_node), lon=end_data["lon"], lat=end_data["lat"], time=end
                 ),
                 time=get_halfway_time(start, end),
             )
