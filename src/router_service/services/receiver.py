@@ -2,7 +2,7 @@
 The receiver for masstransit.
 """
 import logging
-from json import loads
+from json import loads, JSONDecodeError
 from time import sleep
 
 import pika.exceptions
@@ -22,11 +22,11 @@ class Receiver:
         self.exchange = exchange
 
     def handler(
-        self,
-        ch,
-        method,
-        properties,
-        body,
+            self,
+            ch,
+            method,
+            properties,
+            body,
     ):
         """
         Trigger this when a message is consumed from the queue.
@@ -37,12 +37,27 @@ class Receiver:
         :param body:
         :return:
         """
-        msg = loads(body.decode())
-        val = self.handler_func(msg["message"])
-        if self.sender:
-            self.sender.send_message(body=body, message=val)
-        else:
-            return val
+        try:
+            try:
+                msg = loads(body.decode())
+            except Exception as e:  # includes simplejson.decoder.JSONDecodeError
+                print(f'Decoding JSON has failed with error: {str(e)}')
+                raise e
+            try:
+                val = self.handler_func(msg["message"])
+            except Exception as e:
+                logging.error(f"Error in handler: {str(e)}")
+                raise e
+            if self.sender:
+                try:
+                    self.sender.send_message(body=body, message=val)
+                except Exception as e:
+                    logging.error(f"Error when sending: {str(e)}")
+                    raise e
+            else:
+                return val
+        except Exception:
+            pass
 
     def start(self):
         """

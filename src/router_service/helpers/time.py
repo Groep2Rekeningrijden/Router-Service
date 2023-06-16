@@ -1,6 +1,7 @@
 """
 Time helpers.
 """
+import json
 from datetime import datetime
 
 from geopandas import GeoDataFrame
@@ -59,7 +60,7 @@ def match_timestamps(
     return return_timestamps
 
 
-def fill_timestamps(edge_timestamps: dict[int : tuple[str, str]], highest_index: int):
+def fill_timestamps(edge_timestamps: dict[int: tuple[str, str]], highest_index: int):
     """
     Fill in the missing indexes using neighbouring timestamps.
 
@@ -93,10 +94,20 @@ def fill_timestamps(edge_timestamps: dict[int : tuple[str, str]], highest_index:
     for index, missing_range in enumerate(missing_ranges):
         # For longer ranges, full copy both sides, then check if any elements are left empty
         while len(missing_range) > 1:
-            edge_timestamps[missing_range[0]] = edge_timestamps[min(missing_range) - 1]
-            missing_range.pop(0)
-            edge_timestamps[missing_range[-1]] = edge_timestamps[max(missing_range) + 1]
-            missing_range.pop(-1)
+            try:
+                edge_timestamps[missing_range[0]] = edge_timestamps[min(missing_range) - 1]
+                edge_timestamps[missing_range[-1]] = edge_timestamps[max(missing_range) + 1]
+                missing_range.pop(0)
+                missing_range.pop(-1)
+            except KeyError as e:
+                print(e)
+                print("------------------------------")
+                print("For ranges:")
+                print(json.dumps(missing_ranges))
+                print("------------------------------")
+                print("For range:")
+                print(json.dumps(missing_range))
+                raise e
         # Do the 2 way copy for len 1 ranges
         if len(missing_range) == 1:
             edge_timestamps[missing_range[0]] = (
