@@ -1,6 +1,7 @@
 """
 The receiver for masstransit.
 """
+import gc
 import logging
 from json import loads, JSONDecodeError
 from time import sleep
@@ -54,10 +55,12 @@ class Receiver:
                 except Exception as e:
                     logging.error(f"Error when sending: {str(e)}")
                     raise e
+                del val
             else:
                 return val
         except Exception:
             pass
+        gc.collect()
 
     def start(self):
         """

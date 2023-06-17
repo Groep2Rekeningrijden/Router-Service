@@ -187,8 +187,9 @@ class Calculator:
         indexed_edge_timestamps = fill_timestamps(
             indexed_edge_timestamps, len(route_edges.index) - 1
         )
-
-        # Create the route object from the tables
-        return generate_formatted_route(
+        route = generate_formatted_route(
             route_node_ids, route_edges, route_nodes, indexed_edge_timestamps
         )
+        del route_edges, route_nodes
+        # Create the route object from the tables
+        return route

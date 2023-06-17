@@ -26,4 +26,5 @@ README.md
 .vs/
 .idea/
 cache
+**/cache
 .pytest_cache
