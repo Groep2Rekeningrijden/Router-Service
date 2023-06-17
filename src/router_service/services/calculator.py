@@ -1,7 +1,6 @@
 """
 The main route calculator.
 """
-import json
 import logging
 import os
 

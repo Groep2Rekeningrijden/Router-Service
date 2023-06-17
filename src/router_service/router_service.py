@@ -10,20 +10,31 @@ from src.router_service.services.receiver import Receiver
 from src.router_service.services.route_handler import RouteHandler
 from src.router_service.services.sender import Sender
 
-RABBITMQ_USERNAME = os.environ["RABBITMQ_USERNAME"]
-RABBITMQ_PASSWORD = os.environ["RABBITMQ_PASSWORD"]
-RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
-RABBITMQ_PORT = int(os.environ["RABBITMQ_PORT"])
-RABBITMQ_VIRTUAL_HOST = os.environ["RABBITMQ_VIRTUAL_HOST"]
-RABBITMQ_QUEUE = os.environ["RABBITMQ_QUEUE"]
-MASSTRANSIT_INPUT = os.environ["MASSTRANSIT_INPUT"]
-MASSTRANSIT_OUTPUT = os.environ["MASSTRANSIT_OUTPUT"]
+
+RABBITMQ_USERNAME = None
+RABBITMQ_PASSWORD = None
+RABBITMQ_HOST = None
+RABBITMQ_PORT = None
+RABBITMQ_VIRTUAL_HOST = None
+RABBITMQ_QUEUE = None
+MASSTRANSIT_INPUT = None
+MASSTRANSIT_OUTPUT = None
 
 
 def run():
     """
     Run the router service.
     """
+
+    RABBITMQ_USERNAME = os.environ["RABBITMQ_USERNAME"]
+    RABBITMQ_PASSWORD = os.environ["RABBITMQ_PASSWORD"]
+    RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
+    RABBITMQ_PORT = int(os.environ["RABBITMQ_PORT"])
+    RABBITMQ_VIRTUAL_HOST = os.environ["RABBITMQ_VIRTUAL_HOST"]
+    RABBITMQ_QUEUE = os.environ["RABBITMQ_QUEUE"]
+    MASSTRANSIT_INPUT = os.environ["MASSTRANSIT_INPUT"]
+    MASSTRANSIT_OUTPUT = os.environ["MASSTRANSIT_OUTPUT"]
+
     credentials = PlainCredentials(RABBITMQ_USERNAME, RABBITMQ_PASSWORD)
 
     conf = RabbitMQConfiguration(
